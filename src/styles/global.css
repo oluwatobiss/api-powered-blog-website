@@ -41,3 +41,24 @@ h1 {
 .nav-links a:focus {
   background-color: #ff9776;
 }
+
+button {
+  padding: 7px 20px;
+}
+
+label {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
+input {
+  box-sizing: border-box;
+  display: inline-block;
+  border: 1px solid gray;
+  border-radius: 4px;
+  margin-block: 8px;
+  padding: 12px 20px;
+  width: 100%;
+  font-size: 1.1rem;
+}
