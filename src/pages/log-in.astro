@@ -1,65 +1,10 @@
 ---
-export const prerender = false;
+import LoginForm from "../components/LoginForm";
 import Layout from "../layouts/Layout.astro";
-
 const pageTitle = "Log in | APIPoweredBlog";
-const errorMsgs = { email: "", password: "" };
-let isError = false;
-
-if (Astro.request.method === "POST") {
-  try {
-    const data = await Astro.request.formData();
-    const email = data.get("email");
-    const password = data.get("password");
-
-    if (typeof email !== "string" || email.length < 1) {
-      isError = true;
-      errorMsgs.email += "Email is not valid.";
-    }
-
-    if (typeof password !== "string" || password.length < 3) {
-      isError = true;
-      errorMsgs.password += "Password must be at least 3 characters.";
-    }
-
-    if (!isError) {
-      const response = await fetch("http://localhost:3000/auths", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-
-      console.log("=== Json response ===");
-
-      const jwtObj = await response.json();
-      
-      console.log(jwtObj);
-
-      return Astro.redirect("/");
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-  }
-}
 ---
 
 <Layout pageTitle={pageTitle}>
   <h1>Log in</h1>
-  <form method="post">
-    <div>
-      <label for="email">Email</label>
-      <input type="email" name="email" id="email" required />
-      {errorMsgs.email && <p>{errorMsgs.email}</p>}
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" required />
-      {errorMsgs.password && <p>{errorMsgs.password}</p>}
-    </div>
-    <button>Log in</button>
-  </form>
+  <LoginForm client:only="react" />
 </Layout>
