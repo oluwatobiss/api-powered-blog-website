@@ -16,13 +16,12 @@ export default function EditPostForm() {
       const jwtObj = await response.json();
       sessionStorage.setItem("apiPoweredBlogToken", JSON.stringify(jwtObj));
       if (iframeUseRef.current) {
-        console.log("=== Ref exists ===");
         const targetOrigin = "http://localhost:4322";
         const message = JSON.stringify(jwtObj);
         const iframeWindow = iframeUseRef.current.contentWindow;
         iframeWindow.postMessage(message, targetOrigin);
       }
-      // window.location.href = "/";
+      window.location.href = "/";
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -34,13 +33,11 @@ export default function EditPostForm() {
     <>
       <iframe
         id="apiBlogIframe"
-        src="http://localhost:4322/create-post"
+        src="http://localhost:4322/config-token"
         ref={iframeUseRef}
-        // width="0"
-        // height="0"
-        // style={{ border: "none" }}
-        width="800px"
-        height="600px"
+        width="0" // "800px"
+        height="0" // "600px"
+        style={{ border: "none" }}
       ></iframe>
       <form onSubmit={handleSubmit}>
         <div>
