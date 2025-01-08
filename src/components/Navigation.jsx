@@ -4,6 +4,11 @@ export default function Navigation() {
   const [userId, setUserId] = useState("");
   const [userToken, setUserToken] = useState("");
 
+  function logoutUser() {
+    sessionStorage.removeItem("apiPoweredBlogToken");
+    window.location.href = "/";
+  }
+
   useEffect(() => {
     const userId = sessionStorage.getItem("apiPoweredBlogUserId");
     const userTokenJson = sessionStorage.getItem("apiPoweredBlogToken");
@@ -14,10 +19,29 @@ export default function Navigation() {
 
   return (
     <div className="nav-links">
-      <a href="/">Home</a>
-      {!userId && <a href="/sign-up">Sign up</a>}
-      {userId && !userToken && <a href="/log-in">Log in</a>}
-      {userToken && <a href="http://localhost:4322">Manage Your Posts</a>}
+      <a href="/" className="nav-link">
+        Home
+      </a>
+      {!userId && (
+        <a href="/sign-up" className="nav-link">
+          Sign up
+        </a>
+      )}
+      {userId && !userToken && (
+        <a href="/log-in" className="nav-link">
+          Log in
+        </a>
+      )}
+      {userToken && (
+        <a href="http://localhost:4322" className="nav-link">
+          Manage Your Posts
+        </a>
+      )}
+      {userToken && (
+        <span className="nav-link" onClick={logoutUser}>
+          Log out
+        </span>
+      )}
     </div>
   );
 }
