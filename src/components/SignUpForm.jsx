@@ -17,7 +17,7 @@ export default function SignUpForm() {
         },
       });
       const userId = await response.json();
-      sessionStorage.setItem("apiPoweredBlogUserId", JSON.stringify(userId));
+      sessionStorage.setItem("apiPoweredBlogUserId", userId.id);
       window.location.href = "/";
     } catch (error) {
       if (error instanceof Error) {

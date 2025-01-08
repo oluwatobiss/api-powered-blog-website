@@ -1,9 +1,9 @@
 ---
-import Navigation from "./Navigation.astro";
+import Navigation from "./Navigation";
 ---
 
 <header>
   <nav>
-    <Navigation />
+    <Navigation client:only="react" />
   </nav>
 </header>
