@@ -1,77 +1,10 @@
 ---
-export const prerender = false;
+import SignUpForm from "../components/SignUpForm";
 import Layout from "../layouts/Layout.astro";
 const pageTitle = "Sign up | APIPoweredBlog";
-
-let isError = false;
-const errorMsgs = { firstName: "", lastName: "", email: "", password: "" };
-
-if (Astro.request.method === "POST") {
-  try {
-    const data = await Astro.request.formData();
-    const firstName = data.get("firstName");
-    const lastName = data.get("lastName");
-    const email = data.get("email");
-    const password = data.get("password");
-
-    if (typeof firstName !== "string" || firstName.length < 4) {
-      isError = true;
-      errorMsgs.firstName += "First name must be at least 4 characters.";
-    }
-    if (typeof lastName !== "string" || lastName.length < 4) {
-      isError = true;
-      errorMsgs.lastName += "Last name must be at least 4 characters.";
-    }
-    if (typeof email !== "string" || email.length < 4) {
-      isError = true;
-      errorMsgs.email += "Email must be at least 4 characters.";
-    }
-    if (typeof password !== "string" || password.length < 3) {
-      isError = true;
-      errorMsgs.password += "Password must be at least 3 characters.";
-    }
-
-    if (!isError) {
-      await fetch("http://localhost:3000/users", {
-        method: "POST",
-        body: JSON.stringify({ firstName, lastName, email, password }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-      return Astro.redirect("/");
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
-  }
-}
 ---
 
 <Layout pageTitle={pageTitle}>
   <h1>Sign up</h1>
-  <form method="post">
-    <div>
-      <label for="firstName">First name</label>
-      <input type="text" name="firstName" id="firstName" required />
-      {errorMsgs.firstName && <p>{errorMsgs.firstName}</p>}
-    </div>
-    <div>
-      <label for="lastName">Last name</label>
-      <input type="text" name="lastName" id="lastName" required />
-      {errorMsgs.lastName && <p>{errorMsgs.lastName}</p>}
-    </div>
-    <div>
-      <label for="email">Email</label>
-      <input type="email" name="email" id="email" required />
-      {errorMsgs.email && <p>{errorMsgs.email}</p>}
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" required />
-      {errorMsgs.password && <p>{errorMsgs.password}</p>}
-    </div>
-    <button>Sign up</button>
-  </form>
+  <SignUpForm client:only="react" />
 </Layout>
