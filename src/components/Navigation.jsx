@@ -11,10 +11,9 @@ export default function Navigation() {
 
   useEffect(() => {
     const userId = sessionStorage.getItem("apiPoweredBlogUserId");
-    const userTokenJson = sessionStorage.getItem("apiPoweredBlogToken");
-    const userToken = userTokenJson && JSON.parse(userTokenJson);
+    const userToken = sessionStorage.getItem("apiPoweredBlogToken");
     userId && setUserId(userId);
-    userToken?.token && setUserToken(userToken.token);
+    userToken && setUserToken(userToken);
   }, []);
 
   return (
@@ -27,7 +26,7 @@ export default function Navigation() {
           Sign up
         </a>
       )}
-      {userId && !userToken && (
+      {!userToken && (
         <a href="/log-in" className="nav-link">
           Log in
         </a>

@@ -13,11 +13,12 @@ export default function EditPostForm() {
         body: JSON.stringify({ email, password }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
-      const jwtObj = await response.json();
-      sessionStorage.setItem("apiPoweredBlogToken", JSON.stringify(jwtObj));
+      const userObj = await response.json();
+      sessionStorage.setItem("apiPoweredBlogToken", userObj.token);
+      sessionStorage.setItem("apiPoweredBlogUserId", userObj.id);
       if (iframeUseRef.current) {
         const targetOrigin = "http://localhost:4322";
-        const message = JSON.stringify(jwtObj);
+        const message = userObj.token;
         const iframeWindow = iframeUseRef.current.contentWindow;
         iframeWindow.postMessage(message, targetOrigin);
       }
