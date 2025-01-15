@@ -22,7 +22,6 @@ const { post } = Astro.props;
     <div>{post.data.body}</div>
   </section>
   <section>
-    <h2>Comments</h2>
     <Comments postId={post.id} client:only="react" />
   </section>
 </Layout>

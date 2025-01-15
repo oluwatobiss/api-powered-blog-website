@@ -71,6 +71,7 @@ export default function Comments({ postId }) {
 
   return (
     <article>
+      <h2>{comments.length} Comments</h2>
       {userToken && (
         <form onSubmit={handleComment}>
           <div>
@@ -87,7 +88,7 @@ export default function Comments({ postId }) {
           </div>
         </form>
       )}
-      <div>{comments.length && createCommentElements(comments)}</div>
+      <div>{comments.length ? createCommentElements(comments) : ""}</div>
     </article>
   );
 }
