@@ -1,30 +1,29 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Comments({ postId }) {
   const [text, setText] = useState("");
   const [comments, setComments] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [userToken, setUserToken] = useState("");
 
   useEffect(() => {
+    const userToken = sessionStorage.getItem("apiPoweredBlogToken");
+    const userDataJson = sessionStorage.getItem("apiPoweredBlogUserData");
+    const userData = userDataJson && JSON.parse(userDataJson);
     async function getComments() {
       const response = await fetch("http://localhost:3000/comments");
       const comments = await response.json();
-
-      console.log("=== getComments useEffect ===");
-      console.log(comments);
-
       setComments(comments);
     }
+    userToken && setUserToken(userToken);
+    userData && setUserData(userData);
     getComments();
   }, []);
 
   async function handleComment(e) {
     e.preventDefault();
     try {
-      const userToken = sessionStorage.getItem("apiPoweredBlogToken");
-      const userDataJson = sessionStorage.getItem("apiPoweredBlogUserData");
-      const userData = userDataJson && JSON.parse(userDataJson);
-
-      console.log("=== Comments ===");
+      console.log("=== handleComment ===");
       console.log(userData);
 
       const response = await fetch("http://localhost:3000/comments", {
@@ -46,7 +45,7 @@ export default function Comments({ postId }) {
       console.log(commentObj);
 
       setComments([commentObj, ...comments]);
-      setText("")
+      setText("");
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -55,9 +54,6 @@ export default function Comments({ postId }) {
   }
 
   function createCommentElements(comments) {
-    // console.log("=== createCommentElements ===");
-    // console.log(comments);
-
     return comments.map((comment) => (
       <div key={comment.id}>
         <div>
@@ -71,20 +67,22 @@ export default function Comments({ postId }) {
 
   return (
     <article>
-      <form onSubmit={handleComment}>
-        <div>
-          <textarea
-            name="comment"
-            id="comment"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          ></textarea>
-        </div>
-        <div>
-          <button type="button">Cancel</button>
-          <button type="submit">Comment</button>
-        </div>
-      </form>
+      {userToken && (
+        <form onSubmit={handleComment}>
+          <div>
+            <textarea
+              name="comment"
+              id="comment"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            ></textarea>
+          </div>
+          <div>
+            <button type="button">Cancel</button>
+            <button type="submit">Comment</button>
+          </div>
+        </form>
+      )}
       <div>{comments.length && createCommentElements(comments)}</div>
     </article>
   );

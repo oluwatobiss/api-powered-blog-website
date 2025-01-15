@@ -13,10 +13,6 @@ export default function Navigation() {
     const userToken = sessionStorage.getItem("apiPoweredBlogToken");
     const userDataJson = sessionStorage.getItem("apiPoweredBlogUserData");
     const userData = userDataJson && JSON.parse(userDataJson);
-
-    console.log("=== Navigation ===");
-    console.log(userData);
-
     userToken && setUserToken(userToken);
     userData?.id && setUserId(userData.id);
   }, []);
