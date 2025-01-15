@@ -6,45 +6,8 @@ export default function Comments({ postId }) {
   const [updating, setUpdating] = useState(false);
   const [userData, setUserData] = useState({});
   const [userToken, setUserToken] = useState("");
+  const [reload, setReload] = useState(false);
   const commentToEdit = useRef({});
-
-  const commentSubmissionForm = (
-    <form onSubmit={handleCommentSubmission}>
-      <div>
-        <textarea
-          name="comment"
-          id="comment"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        ></textarea>
-      </div>
-      <div>
-        <button type="button" onClick={() => setText("")}>
-          Cancel
-        </button>
-        <button type="submit">Comment</button>
-      </div>
-    </form>
-  );
-
-  const commentUpdateForm = (
-    <form onSubmit={handleCommentUpdate}>
-      <div>
-        <textarea
-          name="comment"
-          id="comment"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        ></textarea>
-      </div>
-      <div>
-        <button type="button" onClick={handleCommentUpdateCancel}>
-          Cancel
-        </button>
-        <button type="submit">Update</button>
-      </div>
-    </form>
-  );
 
   function createCommentElements(comments) {
     return comments.map((comment) => (
@@ -59,8 +22,10 @@ export default function Comments({ postId }) {
         </div>
         <div className="comment-card__text">{comment.text}</div>
         <div>
-          <button type="button">Delete</button>
-          <button type="button" onClick={() => handleCommentEditClick(comment)}>
+          <button type="button" onClick={() => deleteComment(comment)}>
+            Delete
+          </button>
+          <button type="button" onClick={() => editComment(comment)}>
             Edit
           </button>
         </div>
@@ -68,10 +33,10 @@ export default function Comments({ postId }) {
     ));
   }
 
-  async function handleCommentSubmission(e) {
+  async function submitComment(e) {
     e.preventDefault();
     try {
-      console.log("=== handleCommentSubmission ===");
+      console.log("=== submitComment ===");
       console.log(userData);
 
       const response = await fetch(
@@ -91,7 +56,7 @@ export default function Comments({ postId }) {
       );
       const commentObj = await response.json();
 
-      console.log("=== handleCommentSubmission Response ===");
+      console.log("=== submitComment Response ===");
       console.log(commentObj);
 
       setComments([commentObj, ...comments]);
@@ -103,17 +68,17 @@ export default function Comments({ postId }) {
     }
   }
 
-  async function handleCommentUpdate(e) {
+  async function updateComment(e) {
     e.preventDefault();
     try {
-      console.log("=== handleCommentUpdate ===");
+      console.log("=== updateComment ===");
       console.log(userData);
 
       const commentId = commentToEdit.current.id;
-      console.log("=== handleCommentUpdate commentId ===");
+      console.log("=== updateComment commentId ===");
       console.log(commentId);
 
-      const response = await fetch(
+      await fetch(
         `http://localhost:3000/posts/${postId}/comments/${commentId}`,
         {
           method: "PUT",
@@ -124,14 +89,15 @@ export default function Comments({ postId }) {
           },
         }
       );
-      const commentObj = await response.json();
-
-      console.log("=== handleCommentUpdate Response ===");
-      console.log(commentObj);
 
       commentToEdit.current = {};
       setUpdating(false);
       setText("");
+
+      console.log("=== updateComment reload's state ===");
+      console.log(!reload);
+
+      setReload(!reload);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -139,18 +105,78 @@ export default function Comments({ postId }) {
     }
   }
 
-  function handleCommentEditClick(comment) {
+  async function deleteComment(comment) {
+    try {
+      const commentId = comment.id;
+      console.log("=== deleteComment commentId ===");
+      console.log(commentId);
+
+      await fetch(
+        `http://localhost:3000/posts/${postId}/comments/${commentId}`,
+        { method: "DELETE" }
+      );
+
+      console.log("=== deleteComment reload's state ===");
+      console.log(!reload);
+
+      setReload(!reload);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
+    }
+  }
+
+  function editComment(comment) {
     console.log(comment);
     commentToEdit.current = comment;
     setUpdating(true);
     setText(comment.text);
   }
 
-  function handleCommentUpdateCancel() {
+  function cancelCommentUpdate() {
     commentToEdit.current = {};
     setUpdating(false);
     setText("");
   }
+
+  const commentSubmissionForm = (
+    <form onSubmit={submitComment}>
+      <div>
+        <textarea
+          name="comment"
+          id="comment"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        ></textarea>
+      </div>
+      <div>
+        <button type="button" onClick={() => setText("")}>
+          Cancel
+        </button>
+        <button type="submit">Comment</button>
+      </div>
+    </form>
+  );
+
+  const commentUpdateForm = (
+    <form onSubmit={updateComment}>
+      <div>
+        <textarea
+          name="comment"
+          id="comment"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        ></textarea>
+      </div>
+      <div>
+        <button type="button" onClick={cancelCommentUpdate}>
+          Cancel
+        </button>
+        <button type="submit">Update</button>
+      </div>
+    </form>
+  );
 
   useEffect(() => {
     const userToken = sessionStorage.getItem("apiPoweredBlogToken");
@@ -166,7 +192,7 @@ export default function Comments({ postId }) {
     userToken && setUserToken(userToken);
     userData && setUserData(userData);
     getComments();
-  }, [updating]);
+  }, [reload]);
 
   return (
     <article>
