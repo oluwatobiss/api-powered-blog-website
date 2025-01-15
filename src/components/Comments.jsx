@@ -10,27 +10,34 @@ export default function Comments({ postId }) {
   const commentToEdit = useRef({});
 
   function createCommentElements(comments) {
-    return comments.map((comment) => (
-      <div key={comment.id} className="comment-card">
-        <div className="comment-card__bio">
-          <span className="comment-card__username">
-            @{comment.authorUsername}
-          </span>{" "}
-          <span className="comment-card__date">
-            {new Date(comment.createdAt).toLocaleDateString()}
-          </span>
+    return comments.map((comment) => {
+      const isCommentAuthor = userData.username === comment.authorUsername;
+      return (
+        <div key={comment.id} className="comment-card">
+          <div className="comment-card__bio">
+            <span className="comment-card__username">
+              @{comment.authorUsername}
+            </span>{" "}
+            <span className="comment-card__date">
+              {new Date(comment.createdAt).toLocaleDateString()}
+            </span>
+          </div>
+          <div className="comment-card__text">{comment.text}</div>
+          {isCommentAuthor ? (
+            <div>
+              <button type="button" onClick={() => deleteComment(comment)}>
+                Delete
+              </button>
+              <button type="button" onClick={() => editComment(comment)}>
+                Edit
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
-        <div className="comment-card__text">{comment.text}</div>
-        <div>
-          <button type="button" onClick={() => deleteComment(comment)}>
-            Delete
-          </button>
-          <button type="button" onClick={() => editComment(comment)}>
-            Edit
-          </button>
-        </div>
-      </div>
-    ));
+      );
+    });
   }
 
   async function submitComment(e) {
