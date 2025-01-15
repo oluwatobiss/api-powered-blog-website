@@ -10,6 +10,9 @@ const blog = defineCollection({
   loader: async () => {
     const response = await fetch("http://localhost:3000/posts/");
     const data = await response.json();
+    console.log("=== defineCollection (website) ===");
+    console.log(data);
+    
     // Must return an array of entries with an id property, or an object with IDs as keys and entries as values
     return data.map((post: any) => ({
       id: `${post.id}`,

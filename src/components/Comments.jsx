@@ -11,7 +11,9 @@ export default function Comments({ postId }) {
     const userDataJson = sessionStorage.getItem("apiPoweredBlogUserData");
     const userData = userDataJson && JSON.parse(userDataJson);
     async function getComments() {
-      const response = await fetch("http://localhost:3000/comments");
+      const response = await fetch(
+        `http://localhost:3000/posts/${postId}/comments`
+      );
       const comments = await response.json();
       setComments(comments);
     }
@@ -26,19 +28,21 @@ export default function Comments({ postId }) {
       console.log("=== handleComment ===");
       console.log(userData);
 
-      const response = await fetch("http://localhost:3000/comments", {
-        method: "POST",
-        body: JSON.stringify({
-          text,
-          postId,
-          authorId: userData.id,
-          authorUsername: userData.username,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3000/posts/${postId}/comments`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            text,
+            authorId: userData.id,
+            authorUsername: userData.username,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
       const commentObj = await response.json();
 
       console.log("=== handleComment Response ===");
