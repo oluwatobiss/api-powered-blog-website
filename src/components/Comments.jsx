@@ -22,7 +22,7 @@ export default function Comments({ postId }) {
     getComments();
   }, []);
 
-  async function handleComment(e) {
+  async function handleCommentSubmission(e) {
     e.preventDefault();
     try {
       console.log("=== handleComment ===");
@@ -77,7 +77,7 @@ export default function Comments({ postId }) {
     <article>
       <h2>{comments.length} Comments</h2>
       {userToken && (
-        <form onSubmit={handleComment}>
+        <form onSubmit={handleCommentSubmission}>
           <div>
             <textarea
               name="comment"
@@ -87,7 +87,9 @@ export default function Comments({ postId }) {
             ></textarea>
           </div>
           <div>
-            <button type="button">Cancel</button>
+            <button type="button" onClick={() => setText("")}>
+              Cancel
+            </button>
             <button type="submit">Comment</button>
           </div>
         </form>
