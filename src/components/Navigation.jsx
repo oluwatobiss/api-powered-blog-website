@@ -10,10 +10,15 @@ export default function Navigation() {
   }
 
   useEffect(() => {
-    const userId = sessionStorage.getItem("apiPoweredBlogUserId");
     const userToken = sessionStorage.getItem("apiPoweredBlogToken");
-    userId && setUserId(userId);
+    const userDataJson = sessionStorage.getItem("apiPoweredBlogUserData");
+    const userData = userDataJson && JSON.parse(userDataJson);
+
+    console.log("=== Navigation ===");
+    console.log(userData);
+
     userToken && setUserToken(userToken);
+    userData?.id && setUserId(userData.id);
   }, []);
 
   return (

@@ -14,8 +14,15 @@ export default function EditPostForm() {
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
       const userObj = await response.json();
+
+      console.log("=== EditPostForm ===");
+      console.log(userObj);
+
       sessionStorage.setItem("apiPoweredBlogToken", userObj.token);
-      sessionStorage.setItem("apiPoweredBlogUserId", userObj.id);
+      sessionStorage.setItem(
+        "apiPoweredBlogUserData",
+        JSON.stringify(userObj.payload)
+      );
       if (iframeUseRef.current) {
         const targetOrigin = "http://localhost:4322";
         const message = userObj.token;
