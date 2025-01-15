@@ -55,12 +55,16 @@ export default function Comments({ postId }) {
 
   function createCommentElements(comments) {
     return comments.map((comment) => (
-      <div key={comment.id}>
-        <div>
-          <span>@{comment.authorUsername}</span>{" "}
-          <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
+      <div key={comment.id} className="comment-card">
+        <div className="comment-card__bio">
+          <span className="comment-card__username">
+            @{comment.authorUsername}
+          </span>{" "}
+          <span className="comment-card__date">
+            {new Date(comment.createdAt).toLocaleDateString()}
+          </span>
         </div>
-        <div>{comment.text}</div>
+        <div className="comment-card__text">{comment.text}</div>
       </div>
     ));
   }

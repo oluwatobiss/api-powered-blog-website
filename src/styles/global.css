@@ -64,3 +64,26 @@ input {
   width: 100%;
   font-size: 1.1rem;
 }
+
+.comment-card {
+  padding: 5px 13px;
+}
+
+.comment-card__bio {
+  line-height: 1.8rem;
+}
+
+.comment-card__username {
+  font-size: .9rem;
+  font-weight: 500;
+}
+
+.comment-card__date {
+  font-size: .85rem;
+  font-weight: 400;
+  color: gray;
+}
+
+.comment-card__text {
+  font-size: .95rem;
+}
