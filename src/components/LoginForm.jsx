@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-export default function EditPostForm() {
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const iframeUseRef = useRef(null);
@@ -15,7 +15,7 @@ export default function EditPostForm() {
       });
       const userObj = await response.json();
 
-      console.log("=== EditPostForm ===");
+      console.log("=== LoginForm ===");
       console.log(userObj);
 
       sessionStorage.setItem("apiPoweredBlogToken", userObj.token);
@@ -25,9 +25,8 @@ export default function EditPostForm() {
       );
       if (iframeUseRef.current) {
         const targetOrigin = "http://localhost:4322";
-        const message = userObj.token;
         const iframeWindow = iframeUseRef.current.contentWindow;
-        iframeWindow.postMessage(message, targetOrigin);
+        iframeWindow.postMessage(userObj, targetOrigin);
       }
       window.location.href = "/";
     } catch (error) {

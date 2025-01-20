@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function Comments({ postId }) {
-  const [text, setText] = useState("");
+  const [body, setBody] = useState("");
   const [comments, setComments] = useState([]);
   const [updating, setUpdating] = useState(false);
   const [userData, setUserData] = useState({});
@@ -22,7 +22,7 @@ export default function Comments({ postId }) {
               {new Date(comment.createdAt).toLocaleDateString()}
             </span>
           </div>
-          <div className="comment-card__text">{comment.text}</div>
+          <div className="comment-card__body">{comment.body}</div>
           {isCommentAuthor ? (
             <div>
               <button type="button" onClick={() => deleteComment(comment)}>
@@ -51,7 +51,7 @@ export default function Comments({ postId }) {
         {
           method: "POST",
           body: JSON.stringify({
-            text,
+            body,
             authorId: userData.id,
             authorUsername: userData.username,
           }),
@@ -67,7 +67,7 @@ export default function Comments({ postId }) {
       console.log(commentObj);
 
       setComments([commentObj, ...comments]);
-      setText("");
+      setBody("");
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -89,7 +89,7 @@ export default function Comments({ postId }) {
         `http://localhost:3000/posts/${postId}/comments/${commentId}`,
         {
           method: "PUT",
-          body: JSON.stringify({ text }),
+          body: JSON.stringify({ body }),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
             Authorization: `Bearer ${userToken}`,
@@ -99,7 +99,7 @@ export default function Comments({ postId }) {
 
       commentToEdit.current = {};
       setUpdating(false);
-      setText("");
+      setBody("");
 
       console.log("=== updateComment reload's state ===");
       console.log(!reload);
@@ -138,13 +138,13 @@ export default function Comments({ postId }) {
     console.log(comment);
     commentToEdit.current = comment;
     setUpdating(true);
-    setText(comment.text);
+    setBody(comment.body);
   }
 
   function cancelCommentUpdate() {
     commentToEdit.current = {};
     setUpdating(false);
-    setText("");
+    setBody("");
   }
 
   const commentSubmissionForm = (
@@ -153,12 +153,12 @@ export default function Comments({ postId }) {
         <textarea
           name="comment"
           id="comment"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
         ></textarea>
       </div>
       <div>
-        <button type="button" onClick={() => setText("")}>
+        <button type="button" onClick={() => setBody("")}>
           Cancel
         </button>
         <button type="submit">Comment</button>
@@ -172,8 +172,8 @@ export default function Comments({ postId }) {
         <textarea
           name="comment"
           id="comment"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
         ></textarea>
       </div>
       <div>

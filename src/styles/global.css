@@ -84,6 +84,6 @@ input {
   color: gray;
 }
 
-.comment-card__text {
+.comment-card__body {
   font-size: .95rem;
 }
