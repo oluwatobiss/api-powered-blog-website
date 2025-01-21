@@ -5,7 +5,7 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const iframeUseRef = useRef(null);
 
-  async function handleSubmit(e) {
+  async function authenticateUser(e) {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:3000/auths", {
@@ -46,7 +46,7 @@ export default function LoginForm() {
         height="0" // "600px"
         style={{ border: "none" }}
       ></iframe>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={authenticateUser}>
         <div>
           <label htmlFor="email">Email</label>
           <input

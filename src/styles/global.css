@@ -74,16 +74,38 @@ input {
 }
 
 .comment-card__username {
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
 
 .comment-card__date {
-  font-size: .85rem;
+  font-size: 0.85rem;
   font-weight: 400;
   color: gray;
 }
 
 .comment-card__body {
-  font-size: .95rem;
+  font-size: 0.95rem;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 5px;
+}
+
+.checkbox-container label {
+  margin: initial;
+}
+
+.checkbox-container input {
+  width: initial;
+}
+
+.error {
+  margin-bottom: 20px;
+  font-size: small;
+  word-wrap: break-word;
+  color: #e25851;
 }

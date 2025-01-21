@@ -6,8 +6,11 @@ export default function SignUpForm() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [admin, setAdmin] = useState(false);
+  const [adminCode, setAdminCode] = useState("");
+  const [error, setError] = useState("");
 
-  async function handleSubmit(e) {
+  async function registerUser(e) {
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:3000/users", {
@@ -18,6 +21,8 @@ export default function SignUpForm() {
           username,
           email,
           password,
+          admin,
+          adminCode,
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -32,15 +37,22 @@ export default function SignUpForm() {
         "apiPoweredBlogUserData",
         JSON.stringify(userData)
       );
-      window.location.href = "/";
+
+      userData?.error ? setError(userData.error) : (window.location.href = "/");
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
       }
     }
   }
+
+  function updateAdminCode(e) {
+    error && setError("");
+    setAdminCode(e.target.value);
+  }
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={registerUser}>
       <div>
         <label htmlFor="firstName">First name</label>
         <input
@@ -96,6 +108,31 @@ export default function SignUpForm() {
           required
         />
       </div>
+      <div className="checkbox-container">
+        <label htmlFor="adminCheckbox">Admin?</label>
+        <input
+          type="checkbox"
+          id="adminCheckbox"
+          checked={admin}
+          onChange={() => setAdmin(!admin)}
+        />
+      </div>
+      {admin ? (
+        <div>
+          <label htmlFor="adminCode">Enter your passcode:</label>
+          <input
+            type="password"
+            name="adminCode"
+            id="adminCode"
+            value={adminCode}
+            onChange={updateAdminCode}
+            required
+          />
+        </div>
+      ) : (
+        ""
+      )}
+      {error && <div className="error">{error}</div>}
       <button type="submit">Sign up</button>
     </form>
   );
