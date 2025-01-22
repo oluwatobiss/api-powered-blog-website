@@ -12,6 +12,7 @@ export default function Comments({ postId }) {
   function createCommentElements(comments) {
     return comments.map((comment) => {
       const isCommentAuthor = userData.username === comment.authorUsername;
+      const isAdmin = userData.status === "ADMIN";
       return (
         <div key={comment.id} className="comment-card">
           <div className="comment-card__bio">
@@ -23,18 +24,22 @@ export default function Comments({ postId }) {
             </span>
           </div>
           <div className="comment-card__body">{comment.body}</div>
-          {isCommentAuthor ? (
-            <div>
+          <div>
+            {isCommentAuthor || isAdmin ? (
               <button type="button" onClick={() => deleteComment(comment)}>
                 Delete
               </button>
+            ) : (
+              ""
+            )}
+            {isCommentAuthor ? (
               <button type="button" onClick={() => editComment(comment)}>
                 Edit
               </button>
-            </div>
-          ) : (
-            ""
-          )}
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       );
     });
