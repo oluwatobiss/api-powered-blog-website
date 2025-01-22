@@ -34,7 +34,7 @@ export default function Navigation() {
       )}
       {userToken && (
         <a href="http://localhost:4322" className="nav-link">
-          Manage Your Posts
+          Manage Posts
         </a>
       )}
       {userToken && (
