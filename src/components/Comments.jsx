@@ -97,7 +97,7 @@ export default function Comments({ postId }) {
       console.log("=== updateComment commentId ===");
       console.log(commentId);
 
-      await fetch(
+      const response = await fetch(
         `http://localhost:3000/posts/${postId}/comments/${commentId}`,
         {
           method: "PUT",
@@ -109,14 +109,25 @@ export default function Comments({ postId }) {
         }
       );
 
-      commentToEdit.current = {};
-      setUpdating(false);
-      setBody("");
+      const commentObj = await response.json();
 
-      console.log("=== updateComment reload's state ===");
-      console.log(!reload);
+      console.log("=== updateComment Response ===");
+      console.log(commentObj);
+      console.log(commentObj.errors?.length);
 
-      setReload(!reload);
+      if (commentObj.errors?.length) {
+        setErrors(commentObj.errors);
+      } else {
+        commentToEdit.current = {};
+        setUpdating(false);
+        setErrors([]);
+        setBody("");
+
+        console.log("=== updateComment reload's state ===");
+        console.log(!reload);
+
+        setReload(!reload);
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -197,6 +208,7 @@ export default function Comments({ postId }) {
           onChange={(e) => setBody(e.target.value)}
         ></textarea>
       </div>
+      {showErrorFor("body")}
       <div>
         <button type="button" onClick={cancelCommentUpdate}>
           Cancel
