@@ -67,16 +67,16 @@ export default function Comments({ postId }) {
           },
         }
       );
-      const commentObj = await response.json();
+      const responseObj = await response.json();
 
       console.log("=== submitComment Response ===");
-      console.log(commentObj);
-      console.log(commentObj.errors?.length);
+      console.log(responseObj);
+      console.log(responseObj.errors?.length);
 
-      if (commentObj.errors?.length) {
-        setErrors(commentObj.errors);
+      if (responseObj.errors?.length) {
+        setErrors(responseObj.errors);
       } else {
-        setComments([commentObj, ...comments]);
+        setComments([responseObj, ...comments]);
         setErrors([]);
         setBody("");
       }
@@ -109,14 +109,14 @@ export default function Comments({ postId }) {
         }
       );
 
-      const commentObj = await response.json();
+      const responseObj = await response.json();
 
       console.log("=== updateComment Response ===");
-      console.log(commentObj);
-      console.log(commentObj.errors?.length);
+      console.log(responseObj);
+      console.log(responseObj.errors?.length);
 
-      if (commentObj.errors?.length) {
-        setErrors(commentObj.errors);
+      if (responseObj.errors?.length) {
+        setErrors(responseObj.errors);
       } else {
         commentToEdit.current = {};
         setUpdating(false);
