@@ -7,6 +7,7 @@ export default function Comments({ postId }) {
   const [userData, setUserData] = useState({});
   const [userToken, setUserToken] = useState("");
   const [reload, setReload] = useState(false);
+  const [errors, setErrors] = useState([]);
   const commentToEdit = useRef({});
 
   function createCommentElements(comments) {
@@ -70,9 +71,15 @@ export default function Comments({ postId }) {
 
       console.log("=== submitComment Response ===");
       console.log(commentObj);
+      console.log(commentObj.errors?.length);
 
-      setComments([commentObj, ...comments]);
-      setBody("");
+      if (commentObj.errors?.length) {
+        setErrors(commentObj.errors);
+      } else {
+        setComments([commentObj, ...comments]);
+        setErrors([]);
+        setBody("");
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -152,6 +159,14 @@ export default function Comments({ postId }) {
     setBody("");
   }
 
+  function showErrorFor(field) {
+    return errors.find((c) => c.path === field) ? (
+      <div className="error">{errors.find((c) => c.path === field).msg}</div>
+    ) : (
+      ""
+    );
+  }
+
   const commentSubmissionForm = (
     <form onSubmit={submitComment}>
       <div>
@@ -162,6 +177,7 @@ export default function Comments({ postId }) {
           onChange={(e) => setBody(e.target.value)}
         ></textarea>
       </div>
+      {showErrorFor("body")}
       <div>
         <button type="button" onClick={() => setBody("")}>
           Cancel
