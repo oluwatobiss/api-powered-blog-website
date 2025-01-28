@@ -9,7 +9,13 @@ export default function Navigation() {
   }
 
   useEffect(() => {
-    const userToken = sessionStorage.getItem("apiPoweredBlogToken");
+    let userToken = sessionStorage.getItem("apiPoweredBlogToken");
+
+    console.log("=== Website's Navigation useEffect ===");
+    console.log(userToken);
+
+    userToken === "undefined" && (userToken = undefined);
+
     userToken && setUserToken(userToken);
   }, []);
 

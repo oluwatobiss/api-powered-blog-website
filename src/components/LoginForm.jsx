@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
   const iframeUseRef = useRef(null);
 
   async function authenticateUser(e) {
@@ -13,27 +14,38 @@ export default function LoginForm() {
         body: JSON.stringify({ email, password }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
       });
-      const userObj = await response.json();
+      const userData = await response.json();
 
       console.log("=== LoginForm ===");
-      console.log(userObj);
+      console.log(userData);
+      console.log(userData.errors?.length);
 
-      sessionStorage.setItem("apiPoweredBlogToken", userObj.token);
+      sessionStorage.setItem("apiPoweredBlogToken", userData.token);
       sessionStorage.setItem(
         "apiPoweredBlogUserData",
-        JSON.stringify(userObj.payload)
+        JSON.stringify(userData.payload)
       );
       if (iframeUseRef.current) {
         const targetOrigin = "http://localhost:4322";
         const iframeWindow = iframeUseRef.current.contentWindow;
-        iframeWindow.postMessage(userObj, targetOrigin);
+        iframeWindow.postMessage(userData, targetOrigin);
       }
-      window.location.href = "/";
+      userData.errors?.length
+        ? setErrors(userData.errors)
+        : (window.location.href = "/");
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
       }
     }
+  }
+
+  function showErrorFor(field) {
+    return errors.find((c) => c.path === field) ? (
+      <div className="error">{errors.find((c) => c.path === field).msg}</div>
+    ) : (
+      ""
+    );
   }
 
   return (
@@ -58,6 +70,7 @@ export default function LoginForm() {
             required
           />
         </div>
+        {showErrorFor("email")}
         <div>
           <label htmlFor="password">Password</label>
           <input
@@ -69,6 +82,7 @@ export default function LoginForm() {
             required
           />
         </div>
+        {showErrorFor("password")}
         <button type="submit">Log in</button>
       </form>
     </>
