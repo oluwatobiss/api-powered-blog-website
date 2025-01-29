@@ -3,11 +3,6 @@ import { useEffect, useState } from "react";
 export default function Navigation() {
   const [userToken, setUserToken] = useState("");
 
-  function logoutUser() {
-    localStorage.removeItem("apiPoweredBlogToken");
-    window.location.href = "/";
-  }
-
   useEffect(() => {
     let userToken = localStorage.getItem("apiPoweredBlogToken");
 
@@ -15,7 +10,6 @@ export default function Navigation() {
     console.log(userToken);
 
     userToken === "undefined" && (userToken = undefined);
-
     userToken && setUserToken(userToken);
   }, []);
 
@@ -23,12 +17,7 @@ export default function Navigation() {
     <div className="nav-links">
       <a href="/">Home</a>
       {!userToken && <a href="/log-in">Staff Log in</a>}
-      {userToken && (
-        <>
-          <a href="http://localhost:4322">Manage Posts</a>
-          <span onClick={logoutUser}>Log out</span>
-        </>
-      )}
+      {userToken && <a href="http://localhost:4322">Manage Posts</a>}
     </div>
   );
 }
