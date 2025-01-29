@@ -1,50 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 
+const userToken = localStorage.getItem("apiPoweredBlogToken");
+const userDataJson = localStorage.getItem("apiPoweredBlogUserData");
+const userData = userDataJson && JSON.parse(userDataJson);
+
 export default function Comments({ postId }) {
   const [body, setBody] = useState("");
   const [comments, setComments] = useState([]);
   const [updating, setUpdating] = useState(false);
-  const [userData, setUserData] = useState({});
-  const [userToken, setUserToken] = useState("");
   const [reload, setReload] = useState(false);
   const [errors, setErrors] = useState([]);
   const commentToEdit = useRef({});
-
-  function createCommentElements(comments) {
-    return comments.map((comment) => {
-      const isCommentAuthor = userData.username === comment.authorUsername;
-      const isAdmin = userData.status === "ADMIN";
-      return (
-        <div key={comment.id} className="comment-card">
-          <div className="comment-card__bio">
-            <span className="comment-card__username">
-              @{comment.authorUsername}
-            </span>{" "}
-            <span className="comment-card__date">
-              {new Date(comment.createdAt).toLocaleDateString()}
-            </span>
-          </div>
-          <div className="comment-card__body">{comment.body}</div>
-          <div>
-            {isCommentAuthor || isAdmin ? (
-              <button type="button" onClick={() => deleteComment(comment)}>
-                Delete
-              </button>
-            ) : (
-              ""
-            )}
-            {isCommentAuthor ? (
-              <button type="button" onClick={() => editComment(comment)}>
-                Edit
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
-        </div>
-      );
-    });
-  }
 
   async function submitComment(e) {
     e.preventDefault();
@@ -143,7 +109,10 @@ export default function Comments({ postId }) {
 
       await fetch(
         `http://localhost:3000/posts/${postId}/comments/${commentId}`,
-        { method: "DELETE" }
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${userToken}` },
+        }
       );
 
       console.log("=== deleteComment reload's state ===");
@@ -218,10 +187,43 @@ export default function Comments({ postId }) {
     </form>
   );
 
+  function createCommentElements(comments) {
+    return comments.map((comment) => {
+      const isCommentAuthor = userData.username === comment.authorUsername;
+      const isAdmin = userData.status === "ADMIN";
+      return (
+        <div key={comment.id} className="comment-card">
+          <div className="comment-card__bio">
+            <span className="comment-card__username">
+              @{comment.authorUsername}
+            </span>{" "}
+            <span className="comment-card__date">
+              {new Date(comment.createdAt).toLocaleDateString()}
+            </span>
+          </div>
+          <div className="comment-card__body">{comment.body}</div>
+          <div>
+            {isCommentAuthor || isAdmin ? (
+              <button type="button" onClick={() => deleteComment(comment)}>
+                Delete
+              </button>
+            ) : (
+              ""
+            )}
+            {isCommentAuthor ? (
+              <button type="button" onClick={() => editComment(comment)}>
+                Edit
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      );
+    });
+  }
+
   useEffect(() => {
-    const userToken = localStorage.getItem("apiPoweredBlogToken");
-    const userDataJson = localStorage.getItem("apiPoweredBlogUserData");
-    const userData = userDataJson && JSON.parse(userDataJson);
     async function getComments() {
       const response = await fetch(
         `http://localhost:3000/posts/${postId}/comments`
@@ -229,8 +231,6 @@ export default function Comments({ postId }) {
       const comments = await response.json();
       setComments(comments);
     }
-    userToken && setUserToken(userToken);
-    userData && setUserData(userData);
     getComments();
   }, [reload]);
 
