@@ -219,8 +219,8 @@ export default function Comments({ postId }) {
   );
 
   useEffect(() => {
-    const userToken = sessionStorage.getItem("apiPoweredBlogToken");
-    const userDataJson = sessionStorage.getItem("apiPoweredBlogUserData");
+    const userToken = localStorage.getItem("apiPoweredBlogToken");
+    const userDataJson = localStorage.getItem("apiPoweredBlogUserData");
     const userData = userDataJson && JSON.parse(userDataJson);
     async function getComments() {
       const response = await fetch(

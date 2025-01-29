@@ -20,8 +20,8 @@ export default function LoginForm() {
       console.log(userData);
       console.log(userData.errors?.length);
 
-      sessionStorage.setItem("apiPoweredBlogToken", userData.token);
-      sessionStorage.setItem(
+      localStorage.setItem("apiPoweredBlogToken", userData.token);
+      localStorage.setItem(
         "apiPoweredBlogUserData",
         JSON.stringify(userData.payload)
       );
@@ -52,7 +52,7 @@ export default function LoginForm() {
     <>
       <iframe
         id="apiBlogIframe"
-        src="http://localhost:4322/config-token"
+        src="http://localhost:4322/config-user"
         ref={iframeUseRef}
         width="0" // "800px"
         height="0" // "600px"

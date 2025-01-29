@@ -4,12 +4,12 @@ export default function Navigation() {
   const [userToken, setUserToken] = useState("");
 
   function logoutUser() {
-    sessionStorage.removeItem("apiPoweredBlogToken");
+    localStorage.removeItem("apiPoweredBlogToken");
     window.location.href = "/";
   }
 
   useEffect(() => {
-    let userToken = sessionStorage.getItem("apiPoweredBlogToken");
+    let userToken = localStorage.getItem("apiPoweredBlogToken");
 
     console.log("=== Website's Navigation useEffect ===");
     console.log(userToken);

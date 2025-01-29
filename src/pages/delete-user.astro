@@ -1,0 +1,10 @@
+---
+import UserDeletionLogic from "../components/UserDeletionLogic";
+import Layout from "../layouts/Layout.astro";
+const pageTitle = "User Deletion | APIPoweredBlog";
+---
+
+<Layout pageTitle={pageTitle}>
+  <h1>User Deletion</h1>
+  <UserDeletionLogic client:only="react" />
+</Layout>
