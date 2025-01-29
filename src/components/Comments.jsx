@@ -189,8 +189,8 @@ export default function Comments({ postId }) {
 
   function createCommentElements(comments) {
     return comments.map((comment) => {
-      const isCommentAuthor = userData.username === comment.authorUsername;
-      const isAdmin = userData.status === "ADMIN";
+      const isCommentAuthor = userData?.username === comment.authorUsername;
+      const isAdmin = userData?.status === "ADMIN";
       return (
         <div key={comment.id} className="comment-card">
           <div className="comment-card__bio">
