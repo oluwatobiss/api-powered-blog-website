@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 const userToken = localStorage.getItem("apiPoweredBlogToken");
 const userDataJson = localStorage.getItem("apiPoweredBlogUserData");
 const userData = userDataJson && JSON.parse(userDataJson);
+const backendUri = import.meta.env.PUBLIC_BACKEND_URI;
 
 export default function Comments({ postId }) {
   const [body, setBody] = useState("");
@@ -18,21 +19,18 @@ export default function Comments({ postId }) {
       console.log("=== submitComment ===");
       console.log(userData);
 
-      const response = await fetch(
-        `${import.meta.env.PUBLIC_BACKEND_URI}/posts/${postId}/comments`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            body,
-            authorId: userData.id,
-            authorUsername: userData.username,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${userToken}`,
-          },
-        }
-      );
+      const response = await fetch(`${backendUri}/posts/${postId}/comments`, {
+        method: "POST",
+        body: JSON.stringify({
+          body,
+          authorId: userData.id,
+          authorUsername: userData.username,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
       const responseObj = await response.json();
 
       console.log("=== submitComment Response ===");
@@ -64,9 +62,7 @@ export default function Comments({ postId }) {
       console.log(commentId);
 
       const response = await fetch(
-        `${
-          import.meta.env.PUBLIC_BACKEND_URI
-        }/posts/${postId}/comments/${commentId}`,
+        `${backendUri}/posts/${postId}/comments/${commentId}`,
         {
           method: "PUT",
           body: JSON.stringify({ body }),
@@ -109,15 +105,10 @@ export default function Comments({ postId }) {
       console.log("=== deleteComment commentId ===");
       console.log(commentId);
 
-      await fetch(
-        `${
-          import.meta.env.PUBLIC_BACKEND_URI
-        }/posts/${postId}/comments/${commentId}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${userToken}` },
-        }
-      );
+      await fetch(`${backendUri}/posts/${postId}/comments/${commentId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${userToken}` },
+      });
 
       console.log("=== deleteComment reload's state ===");
       console.log(!reload);
@@ -229,9 +220,7 @@ export default function Comments({ postId }) {
 
   useEffect(() => {
     async function getComments() {
-      const response = await fetch(
-        `${import.meta.env.PUBLIC_BACKEND_URI}/posts/${postId}/comments`
-      );
+      const response = await fetch(`${backendUri}/posts/${postId}/comments`);
       const comments = await response.json();
       setComments(comments);
     }
