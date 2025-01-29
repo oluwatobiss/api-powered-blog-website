@@ -19,7 +19,7 @@ export default function Comments({ postId }) {
       console.log(userData);
 
       const response = await fetch(
-        `http://localhost:3000/posts/${postId}/comments`,
+        `${import.meta.env.PUBLIC_BACKEND_URI}/posts/${postId}/comments`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -64,7 +64,9 @@ export default function Comments({ postId }) {
       console.log(commentId);
 
       const response = await fetch(
-        `http://localhost:3000/posts/${postId}/comments/${commentId}`,
+        `${
+          import.meta.env.PUBLIC_BACKEND_URI
+        }/posts/${postId}/comments/${commentId}`,
         {
           method: "PUT",
           body: JSON.stringify({ body }),
@@ -108,7 +110,9 @@ export default function Comments({ postId }) {
       console.log(commentId);
 
       await fetch(
-        `http://localhost:3000/posts/${postId}/comments/${commentId}`,
+        `${
+          import.meta.env.PUBLIC_BACKEND_URI
+        }/posts/${postId}/comments/${commentId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${userToken}` },
@@ -226,7 +230,7 @@ export default function Comments({ postId }) {
   useEffect(() => {
     async function getComments() {
       const response = await fetch(
-        `http://localhost:3000/posts/${postId}/comments`
+        `${import.meta.env.PUBLIC_BACKEND_URI}/posts/${postId}/comments`
       );
       const comments = await response.json();
       setComments(comments);

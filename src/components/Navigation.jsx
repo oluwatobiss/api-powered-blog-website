@@ -17,7 +17,9 @@ export default function Navigation() {
     <div className="nav-links">
       <a href="/">Home</a>
       {!userToken && <a href="/log-in">Staff Log in</a>}
-      {userToken && <a href="http://localhost:4322">Manage Posts</a>}
+      {userToken && (
+        <a href={import.meta.env.PUBLIC_STAFFEND_URI}>Manage Posts</a>
+      )}
     </div>
   );
 }

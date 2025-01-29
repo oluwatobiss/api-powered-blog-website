@@ -9,11 +9,14 @@ export default function LoginForm() {
   async function authenticateUser(e) {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/auths", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: { "Content-type": "application/json; charset=UTF-8" },
-      });
+      const response = await fetch(
+        `${import.meta.env.PUBLIC_BACKEND_URI}/auths`,
+        {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+        }
+      );
       const userData = await response.json();
 
       console.log("=== LoginForm ===");
@@ -26,7 +29,7 @@ export default function LoginForm() {
         JSON.stringify(userData.payload)
       );
       if (iframeUseRef.current) {
-        const targetOrigin = "http://localhost:4322";
+        const targetOrigin = import.meta.env.STAFFEND_URI;
         const iframeWindow = iframeUseRef.current.contentWindow;
         iframeWindow.postMessage(userData, targetOrigin);
       }
@@ -52,7 +55,7 @@ export default function LoginForm() {
     <>
       <iframe
         id="apiBlogIframe"
-        src="http://localhost:4322/config-user"
+        src={`${import.meta.env.PUBLIC_STAFFEND_URI}/config-user`}
         ref={iframeUseRef}
         width="0" // "800px"
         height="0" // "600px"

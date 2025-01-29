@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 export default function UserDeletionLogic() {
   useEffect(() => {
-    const expectedOrigin = "http://localhost:4322";
+    const expectedOrigin = import.meta.env.PUBLIC_STAFFEND_URI;
     function handleMessageEvent(e) {
       console.log("=== UserDeletionLogic ===");
       console.log(e);
