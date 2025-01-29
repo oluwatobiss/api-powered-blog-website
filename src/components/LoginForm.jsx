@@ -69,8 +69,8 @@ export default function LoginForm() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          {showErrorFor("email")}
         </div>
-        {showErrorFor("email")}
         <div>
           <label htmlFor="password">Password</label>
           <input
@@ -81,8 +81,8 @@ export default function LoginForm() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {showErrorFor("password")}
         </div>
-        {showErrorFor("password")}
         <button type="submit">Log in</button>
       </form>
     </>

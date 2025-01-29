@@ -187,8 +187,8 @@ export default function Comments({ postId }) {
           value={body}
           onChange={(e) => setBody(e.target.value)}
         ></textarea>
+        {showErrorFor("body")}
       </div>
-      {showErrorFor("body")}
       <div>
         <button type="button" onClick={() => setBody("")}>
           Cancel
@@ -207,8 +207,8 @@ export default function Comments({ postId }) {
           value={body}
           onChange={(e) => setBody(e.target.value)}
         ></textarea>
+        {showErrorFor("body")}
       </div>
-      {showErrorFor("body")}
       <div>
         <button type="button" onClick={cancelCommentUpdate}>
           Cancel
