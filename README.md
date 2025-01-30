@@ -1,6 +1,6 @@
 # fansInSync
 
-A website that allows fans to stay updated with Company's internal communications and products development.
+A website that lets fans stay updated on the company's internal communications and product development.
 
 ## Pages
 
@@ -30,3 +30,8 @@ A website that allows fans to stay updated with Company's internal communication
 
 - Astro
 - React
+
+## Related Repos
+
+- [Staff-only website](https://github.com/oluwatobiss/api-powered-blog-editor)
+- [Backend](https://github.com/oluwatobiss/api-powered-blog-backend)
