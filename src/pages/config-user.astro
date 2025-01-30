@@ -1,0 +1,10 @@
+---
+import UserConfigLogic from "../components/UserConfigLogic";
+import Layout from "../layouts/Layout.astro";
+const pageTitle = "User Configuration | APIPoweredBlog";
+---
+
+<Layout pageTitle={pageTitle}>
+  <h1>User Configuration</h1>
+  <UserConfigLogic client:only="react" />
+</Layout>
