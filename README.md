@@ -63,7 +63,7 @@ touch .env
 
 ```
 PUBLIC_BACKEND_URI="http://localhost:3000"
-PUBLIC_STAFFEND_URI="http://localhost:4322"
+PUBLIC_STAFFEND_URI="http://localhost:PORT"
 ```
 
 6. Start the server

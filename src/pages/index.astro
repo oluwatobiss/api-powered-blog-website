@@ -1,17 +1,21 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import BlogPost from "../components/BlogPost.astro";
-import { getCollection } from "astro:content";
 const posts = await getCollection("blog");
 const pageTitle = "Home | FansInSync";
 ---
 
 <Layout pageTitle={pageTitle}>
-  <ul>
-    {
-      posts.map((post: any) => (
-        <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
-      ))
-    }
-  </ul>
+  {
+    posts.length ? (
+      <ul>
+        {posts.map((post: any) => (
+          <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />
+        ))}
+      </ul>
+    ) : (
+      <p>No published posts are available. Check back soon...</p>
+    )
+  }
 </Layout>
