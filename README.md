@@ -1,14 +1,14 @@
-# fansInSync
+# FansInSync
 
 A website that lets fans stay updated on the company's internal communications and product development.
 
 ## Pages
 
-- **Home:** Displays a list of all published posts as clickable items that link to each post's page.
+- **Home:** List all published posts as clickable items that link to each post's page.
 - **Post:**
-  - Shows a published article for users to read.
-  - Allow the company's staff to comment on the publication.
-  - Allow users to view comments the company's staff have posted.
+  - Read published article.
+  - Comment on the publication.
+  - Read comments.
 
 ## Users and privileges
 
@@ -33,5 +33,5 @@ A website that lets fans stay updated on the company's internal communications a
 
 ## Related Repos
 
-- [Staff-only website](https://github.com/oluwatobiss/api-powered-blog-editor)
-- [Backend](https://github.com/oluwatobiss/api-powered-blog-backend)
+- [StaffBlog](https://github.com/oluwatobiss/api-powered-blog-editor)
+- [Fans-n-Company Rest API](https://github.com/oluwatobiss/api-powered-blog-backend)

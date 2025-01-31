@@ -4,9 +4,6 @@ export default function UserDeletionLogic() {
   useEffect(() => {
     const expectedOrigin = import.meta.env.PUBLIC_STAFFEND_URI;
     function handleMessageEvent(e) {
-      console.log("=== UserDeletionLogic ===");
-      console.log(e);
-
       if (e.origin === expectedOrigin) {
         const userData = e.data;
         if (userData !== null) {

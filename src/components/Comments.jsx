@@ -16,9 +16,6 @@ export default function Comments({ postId }) {
   async function submitComment(e) {
     e.preventDefault();
     try {
-      console.log("=== submitComment ===");
-      console.log(userData);
-
       const response = await fetch(`${backendUri}/posts/${postId}/comments`, {
         method: "POST",
         body: JSON.stringify({
@@ -32,11 +29,6 @@ export default function Comments({ postId }) {
         },
       });
       const responseObj = await response.json();
-
-      console.log("=== submitComment Response ===");
-      console.log(responseObj);
-      console.log(responseObj.errors?.length);
-
       if (responseObj.errors?.length) {
         setErrors(responseObj.errors);
       } else {
@@ -54,13 +46,7 @@ export default function Comments({ postId }) {
   async function updateComment(e) {
     e.preventDefault();
     try {
-      console.log("=== updateComment ===");
-      console.log(userData);
-
       const commentId = commentToEdit.current.id;
-      console.log("=== updateComment commentId ===");
-      console.log(commentId);
-
       const response = await fetch(
         `${backendUri}/posts/${postId}/comments/${commentId}`,
         {
@@ -72,12 +58,7 @@ export default function Comments({ postId }) {
           },
         }
       );
-
       const responseObj = await response.json();
-
-      console.log("=== updateComment Response ===");
-      console.log(responseObj);
-      console.log(responseObj.errors?.length);
 
       if (responseObj.errors?.length) {
         setErrors(responseObj.errors);
@@ -86,10 +67,6 @@ export default function Comments({ postId }) {
         setUpdating(false);
         setErrors([]);
         setBody("");
-
-        console.log("=== updateComment reload's state ===");
-        console.log(!reload);
-
         setReload(!reload);
       }
     } catch (error) {
@@ -102,17 +79,10 @@ export default function Comments({ postId }) {
   async function deleteComment(comment) {
     try {
       const commentId = comment.id;
-      console.log("=== deleteComment commentId ===");
-      console.log(commentId);
-
       await fetch(`${backendUri}/posts/${postId}/comments/${commentId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${userToken}` },
       });
-
-      console.log("=== deleteComment reload's state ===");
-      console.log(!reload);
-
       setReload(!reload);
     } catch (error) {
       if (error instanceof Error) {
@@ -122,7 +92,6 @@ export default function Comments({ postId }) {
   }
 
   function editComment(comment) {
-    console.log(comment);
     commentToEdit.current = comment;
     setUpdating(true);
     setBody(comment.body);

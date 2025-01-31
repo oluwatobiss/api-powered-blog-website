@@ -14,9 +14,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 ---
 
-<Layout pageTitle={`${post.data.title} | fansInSync`}>
-  {console.log("=== Post page data ===")}
-  {console.log(post)}
+<Layout pageTitle={`${post.data.title} | FansInSync`}>
   <section>
     <h1>{post.data.title}</h1>
     <div>{post.data.body}</div>
