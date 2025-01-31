@@ -33,9 +33,7 @@ A website that lets fans stay updated on the company's internal communications a
 
 ## Usage
 
-> **Note:**
->
-> [The backend](https://github.com/oluwatobiss/api-powered-blog-backend) must be running for this website to function appropriately.
+> **Note:** [The backend](https://github.com/oluwatobiss/api-powered-blog-backend) must be running for this website to function appropriately.
 
 1. Clone the project
 
