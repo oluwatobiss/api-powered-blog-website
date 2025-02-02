@@ -1,6 +1,7 @@
 import { defineCollection, z } from "astro:content";
 
-const backendUri = import.meta.env.PUBLIC_BACKEND_URI;
+const backendUri =
+  import.meta.env.PUBLIC_BACKEND_URI || process.env.PUBLIC_BACKEND_URI;
 
 const blog = defineCollection({
   loader: async () => {

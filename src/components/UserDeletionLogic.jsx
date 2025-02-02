@@ -2,7 +2,8 @@ import { useEffect } from "react";
 
 export default function UserDeletionLogic() {
   useEffect(() => {
-    const expectedOrigin = import.meta.env.PUBLIC_STAFFEND_URI;
+    const expectedOrigin =
+      import.meta.env.PUBLIC_STAFFEND_URI || process.env.PUBLIC_STAFFEND_URI;
     function handleMessageEvent(e) {
       if (e.origin === expectedOrigin) {
         const userData = e.data;
