@@ -5,6 +5,9 @@ const backendUri =
 
 const blog = defineCollection({
   loader: async () => {
+    console.log("=== defineCollection ===");
+    console.log(backendUri);
+
     const response = await fetch(`${backendUri}/posts`);
     const data = await response.json();
     return data.map((post: any) => ({
