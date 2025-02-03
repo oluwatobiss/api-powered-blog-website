@@ -72,6 +72,10 @@ PUBLIC_STAFFEND_URI="http://localhost:PORT"
 npm run dev
 ```
 
+## Live Demo
+
+- https://fansinsync.vercel.app/
+
 ## Related Repos
 
 - [StaffBlog](https://github.com/oluwatobiss/api-powered-blog-editor)
