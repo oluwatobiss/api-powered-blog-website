@@ -1,14 +1,8 @@
 import { defineCollection, z } from "astro:content";
 
-const backendUri =
-  import.meta.env.PUBLIC_BACKEND_URI || process.env.PUBLIC_BACKEND_URI;
-
 const blog = defineCollection({
   loader: async () => {
-    console.log("=== defineCollection ===");
-    console.log(backendUri);
-
-    const response = await fetch(`${backendUri}/posts`);
+    const response = await fetch(`${import.meta.env.PUBLIC_BACKEND_URI}/posts`);
     const data = await response.json();
     return data.map((post: any) => ({
       id: `${post.id}`,

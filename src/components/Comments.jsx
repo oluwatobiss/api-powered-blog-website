@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from "react";
 const userToken = localStorage.getItem("apiPoweredBlogToken");
 const userDataJson = localStorage.getItem("apiPoweredBlogUserData");
 const userData = userDataJson && JSON.parse(userDataJson);
-const backendUri =
-  import.meta.env.PUBLIC_BACKEND_URI || process.env.PUBLIC_BACKEND_URI;
+const backendUri = import.meta.env.PUBLIC_BACKEND_URI;
 
 export default function Comments({ postId }) {
   const [body, setBody] = useState("");
